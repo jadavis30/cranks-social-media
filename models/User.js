@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 
+
 const UserSchema = new Schema (
     {
         username: {
@@ -14,7 +15,13 @@ const UserSchema = new Schema (
             trim: true,
             required: 'A valid e-mail is required.',
             unique: true,
-            match:  `/.+\@.+\..+/`
+            //Uses validator function that tests the regex and passes a message for errors.
+            validate: {
+                validator: function(v) {
+                    return /.+\@.+\..+/.test(v);
+                },
+                message: 'E-mail required'
+            }
         },
         thoughts: [
             {
